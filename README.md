@@ -25,17 +25,21 @@ First clone the repository into your catkin workspace `src` folder. From your ca
 
 ## Execution
 
-The package is designed to run directly on the Turtlebot3 or in parallel with a simulated model in Gazebo.
+The package is designed to run directly on the Turtlebot3 simulated model in Gazebo.
 
-To run on the Turtlebot3, launch:
-```roslaunch turtle_polaris turtlebot3_controller.launch```
-
-To launch the simulation environment, launch:
-```roslaunch turtle_polaris turtlebot3_sim.launch```
-
-Alternatively, you can launch both at the same time using:
+To run on the Turtlebot3 simulation in Gazebo, launch:
 ```roslaunch turtle_polaris turtle_to_polaris_main.launch```
 
-`turtlebot3_controller.launch` and `turtle_to_polaris_main.launch` accept 3 launch arguments: `lat`, `lon`, and `alt`. They represent latitude (deg_dec), longitude (deg_dec) and altitude above sea level (m). They are set to 0.0 by default.
+`turtle_to_polaris_main.launch` accept launch arguments: `mag_declination_inertial`. It represents the magnetic declination of the earth and can be found out using latitude (deg_dec), longitude (deg_dec) and altitude above sea level (m) from http://www.geomag.bgs.ac.uk/data_service/models_compass/wmm_calc.html. It is set to 13.60 by default.
 
-`turtlebot3_sim.launch` accepts 1 launch argument: `yaw` (rad). It represents the initial yaw of the robot and is set to 0.0 by default (due East).
+## Implementation details
+The controller is implemented in the `turtlebot_polaris_node.py` file and incorporates methods to obtain the current yaw from the `/odom` topic and send an appropriate yaw rate command through the `/cmd_vel` topic. Additionally, the node depends on:
+- **`PI_controller.py`**: contains the PI class. The class is a PI controller that allows to compute appropriate yaw rate commands for the robot. Although, in this case, it seems that a simple P controller works good enough. Therefore the I gain is set to 0.
+
+## Future work
+In the future, the following improvements could be achieved:
+
+- Apply a filtering method such as median filtering or bayesian filters such as kalman filter for filtering the odom data
+- Create an API call to callculate the magnetic declination using Lat, Long and Alt
+- The point (2) can be further robustified using a GPS module that measures the Lat, Long and Alt for calculating the magnetic declination
+- More test cases should be implemented that perform unit tests on each of the methods and classes.
