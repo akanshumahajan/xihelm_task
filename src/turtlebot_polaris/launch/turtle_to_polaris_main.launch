@@ -1,0 +1,11 @@
+<launch>
+
+ <arg name="mag_declination_inertial" default="13.60"/>
+
+
+
+ <include file="$(find turtlebot_polaris)/launch/turtlebot3_sim.launch"/>
+ <include file="$(find turtlebot_polaris)/launch/turtlebot3_controller.launch"/>
+  <param name="controller/mag_declination_inertial" value="$(arg mag_declination_inertial)"/>
+
+</launch>

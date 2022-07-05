@@ -1,0 +1,17 @@
+<launch>
+ <arg name="mag_declination_inertial" default="8.948"/>
+
+  <arg name="yaw_success" default="95.7333"/>
+
+ <include file="$(find turtlebot_polaris)/launch/turtlebot3_sim.launch"/>
+
+ <include file="$(find turtlebot_polaris)/launch/turtlebot3_controller.launch"/>
+
+  <param name="controller/mag_declination_inertial" value="$(arg mag_declination_inertial)"/>
+
+
+ <test test-name="test_correct_polaris_heading" pkg="turtlebot_polaris" type="test_correct_polaris_heading.py" >
+  <param name="yaw_success" value="$(arg yaw_success)"/>
+ </test>
+
+</launch>
