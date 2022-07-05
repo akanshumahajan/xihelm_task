@@ -1,4 +1,4 @@
-# Orient_Tbot_Polaris
+# Turtlebot_Polaris_Orientation
 This project aims to autonomously orient the Turtlebot3 to Polaris (the North Star) from any given location on Earth.
 
 ## Problem statement
